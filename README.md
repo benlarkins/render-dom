@@ -1,4 +1,4 @@
-# render-react
+# render-dom
 
 A small wrapper around React.createElement to improve api and add features
 
@@ -6,7 +6,7 @@ A small wrapper around React.createElement to improve api and add features
 
 ```js
 var React = require('react');
-var r = require('render-react');
+var r = require('render-dom');
 
 var AnotherComponent = require('./another-component');
 

@@ -1,5 +1,5 @@
 {
-  "name": "render-react",
+  "name": "render-dom",
   "version": "0.0.1",
   "description": "A small wrapper around React.createElement to improve api and add features. A functional alternative to JSX.",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benlarkins/render-react.git"
+    "url": "git+https://github.com/benlarkins/render-dom.git"
   },
   "keywords": [
     "render-react",
@@ -18,9 +18,9 @@
   "author": "benlarkins",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/benlarkins/render-react/issues"
+    "url": "https://github.com/benlarkins/render-dom/issues"
   },
-  "homepage": "https://github.com/benlarkins/render-react#readme",
+  "homepage": "https://github.com/benlarkins/render-dom#readme",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^17.0.0"
