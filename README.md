@@ -44,11 +44,11 @@ Returns a React element
 
 Returns a React element
 
-- **component** `Function` - A React.js Component class created with `React.createClass`
+- **component** `Function` - A React component
 - **properties** `Object` *optional* - An object containing the properties you'd like to set on the element.
 - **children** `Array|String` *optional* - An array of `r` children or a string. This will create child elements or a text node, respectively.
 
 #### Special Properties
 
-- **isRendered** `"Boolean"` *optional* - If falsy, React will skip rendering the target component.
+- **isRendered** `"Boolean"` *optional* - If falsy, will skip rendering the component.
 - **classSet** `Object` *optional* - Apply [classnames](https://www.npmjs.com/package/classnames) and assign to className.
