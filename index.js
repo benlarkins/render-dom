@@ -4,8 +4,8 @@
 // Adds ability to pass children as second argument
 // Adds methods on default function for native html elements ie r.div instead of r('div')
 
-import classNames from 'classnames';
-import { createElement } from 'react';
+const classNames = require('classnames');
+const createElement = require('react').createElement;
 
 export const htmlElements = [
     'a',
