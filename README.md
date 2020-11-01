@@ -5,29 +5,27 @@ A small wrapper around React.createElement to improve api and add features based
 ## Usage
 
 ```js
-var React = require('react');
-var r = require('render-dom');
+import React from 'react';
+import r from 'render-dom';
 
-var AnotherComponent = require('./another-component');
+import AnotherComponent from './another-component';
 
-module.exports = React.createClass({
-  render: function render() {
-    return (
-      r.div({className: 'example'}, [
-        r.h1('Hello World!'),
-        r.h2('This is React.js markup'),
-        r(AnotherComponent, {foo: 'bar'}),
-        r.div({
-          classSet: { // Automatically use `classnames` module for classSet
-            foo: this.props.foo,
-            bar: this.props.bar
-          },
-          isRendered: this.props.foo // div won't render if isRendered is falsy
-        })
-      ])
-    );
-  }
-});
+export default function MyComponent() {
+  return (
+    r.div({className: 'example'}, [
+      r.h1('Hello World!'),
+      r.h2('This is React.js markup'),
+      r(AnotherComponent, {foo: 'bar'}),
+      r.div({
+        classSet: { // Automatically use `classnames` module for classSet
+          foo: this.props.foo,
+          bar: this.props.bar
+        },
+        isRendered: this.props.foo // div won't render if isRendered is falsy
+      })
+    ])
+  );
+}
 ```
 
 ## Documentation

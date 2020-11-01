@@ -11,9 +11,11 @@
     "url": "git+https://github.com/benlarkins/render-dom.git"
   },
   "keywords": [
-    "render-react",
+    "createElement",
+    "hyperscript",
     "r-dom",
-    "hyperscript"
+    "render-dom",
+    "render-react"
   ],
   "author": "benlarkins",
   "license": "ISC",
