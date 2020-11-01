@@ -1,6 +1,6 @@
 # render-dom
 
-A small wrapper around React.createElement to improve api and add features
+A small wrapper around React.createElement to improve api and add features based on the [r-dom](https://github.com/uber/r-dom) api.
 
 ## Usage
 
