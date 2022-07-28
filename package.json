@@ -1,6 +1,6 @@
 {
   "name": "render-dom",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A small wrapper around React.createElement to improve api and add features. A functional alternative to JSX.",
   "main": "index.min.js",
   "scripts": {
