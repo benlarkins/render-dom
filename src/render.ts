@@ -4,10 +4,12 @@
 // Adds ability to pass children as second argument
 // Adds methods on default function for native html elements ie r.div instead of r('div')
 
-const classNames = require('classnames');
-const createElement = require('react').createElement;
+import classNames from 'classnames';
+import { createElement } from 'react';
+import type { ReactNode } from 'react';
 
-export const htmlElements = [
+// A list of valid HTML elements.
+export const htmlElements: string[] = [
     'a',
     'abbr',
     'address',
@@ -154,61 +156,76 @@ export const htmlElements = [
     'wbr',
 ];
 
-function validateChildren(c) {
-    return Array.isArray(c) || (typeof c === 'string' || c instanceof String) || typeof c === 'number';
+type Children = ReactNode | ReactNode[];
+
+interface ExtendedProps {
+    className?: string;
+    classSet?: Record<string, boolean>;
+    isRendered?: any;
+    [key: string]: any;
 }
 
-function createReactElement(tag, properties, maybeChildren) {
-    let props = null;
-    let children = null;
+/**
+ * Checks if a value is valid as children.
+ */
+function validateChildren(c: any): c is Children {
+    return (
+        Array.isArray(c) ||
+        typeof c === 'string' ||
+        c instanceof String ||
+        typeof c === 'number'
+    );
+}
 
-    // Provide nicer api by allowing children to be passed as second param.
-    // ie allows r.p('hi') instead of r.p(null, 'hi')
+interface CreateReactElement {
+    (tag: string, properties?: ExtendedProps | Children, maybeChildren?: Children): ReactNode | null;
+    [key: string]: any;
+}
+
+// Provide nicer api by allowing children to be passed as second param.
+// ie allows r.p('hi') instead of r.p(null, 'hi')
+const createReactElement: CreateReactElement = (
+    tag: string,
+    properties?: ExtendedProps | Children,
+    maybeChildren?: Children
+): ReactNode | null => {
+    let props: ExtendedProps | null = null;
+    let children: Children | undefined;
+
+    // Allow children to be passed as the first argument if it is a valid children type.
     if (validateChildren(properties)) {
         children = properties;
-    } else if (typeof properties === 'object' && properties !== null) {
-        const { className = '', classSet = {}, isRendered } = properties;
+    } else if (properties && typeof properties === 'object') {
+        // Destructure while excluding custom props:
+        const { className = '', classSet = {}, isRendered, ...restProps } = properties as ExtendedProps;
 
-        // Allows isRendered prop to prevent any component from being rendered
-        if (properties.hasOwnProperty('isRendered') && !isRendered) {
-            return null;
-        }
+        // Prevent rendering if isRendered is false.
+        // Allows isRendered prop to prevent any component from being rendered.        
+        if ('isRendered' in properties && !isRendered) return null;
 
-        // Allow classname api features via classSet prop
-        if (Object.keys(classSet).length) {
-            let classArray = [];
+        // Merge classNames if classSet is provided.
+        const mergedClassName =
+            Object.keys(classSet).length || className.length
+                ? classNames(classSet, className)
+                : className;
 
-            if (className.length) {
-                classArray = className.split(' ').map((name) => ({ [name]: true }));
-            }
-
-            properties.className = classNames(classSet, ...classArray);
-        }
-
-        // Remove props used to add functionality
-        delete properties.classSet;
-        delete properties.isRendered;
-
-        props = properties;
+        props = { ...restProps, ...(mergedClassName ? { className: mergedClassName } : {}) };
     }
 
-    if (!children && validateChildren(maybeChildren)) {
+    if (children === undefined && validateChildren(maybeChildren)) {
         children = maybeChildren;
     }
 
     // Pass each child separately. If passed as an array then each child must have a key
-    if (Array.isArray(children)) {
-        return createElement(tag, props, ...children);
-    }
+    return Array.isArray(children)
+        ? createElement(tag, props, ...children)
+        : createElement(tag, props, children);
+};
 
-    return createElement(tag, props, children);
-}
-
-// Add methods for cleaner, shorter api. r.p('hello') === React.createElement('p', null, 'hello')
+// Create shorthand methods for every HTML element.
 htmlElements.forEach((tag) => {
-    createReactElement[tag] = (props, children) => {
-        return createReactElement(tag, props, children);
-    };
+    createReactElement[tag] = (props?: ExtendedProps | Children, children?: Children) =>
+        createReactElement(tag, props, children);
 });
 
 export default createReactElement;
